@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import * as colors from '../../css/constants/colors';
-import * as fetcher from '../../fetcher';
+import { device } from '../../css/constants/sizes';
+import { Fetcher } from '../../fetcher';
 
 import SearchFilters from '../../components/searchfilter';
 import MovieList from '../../components/movielist';
@@ -38,6 +39,16 @@ export default class Discover extends React.Component {
 
   // TODO: Update search results based on the keyword and year inputs
 
+  componentDidMount() {
+    Fetcher.getAllMovies().then((res) => {
+      console.log(res);
+      this.setState({
+        results: res.data.results,
+        totalCount: res.data.total_results,
+      });
+    });
+  }
+
   render() {
     const {
       genreOptions,
@@ -51,7 +62,6 @@ export default class Discover extends React.Component {
       <DiscoverWrapper>
         <MobilePageTitle>Discover</MobilePageTitle>{' '}
         {/* MobilePageTitle should become visible on mobile devices via CSS media queries*/}
-        <TotalCount>{totalCount} results</TotalCount>
         <MovieFilters>
           <SearchFilters
             genres={genreOptions}
@@ -60,6 +70,7 @@ export default class Discover extends React.Component {
             searchMovies={(keyword, year) => this.searchMovies(keyword, year)}
           />
         </MovieFilters>
+        <TotalCount>{Number(totalCount).toLocaleString()} results</TotalCount>
         <MovieResults>
           <MovieList movies={results || []} genres={genreOptions || []} />
         </MovieResults>
@@ -70,11 +81,20 @@ export default class Discover extends React.Component {
 
 const DiscoverWrapper = styled.main`
   padding: 35px;
+  display: flex;
+  flex-direction: column;
+
+  @media ${device.laptop} {
+    display: block;
+  }
 `;
 
 const MovieResults = styled.div`
   display: inline-block;
-  width: calc(100% - 295px);
+
+  @media ${device.laptop} {
+    width: calc(100% - 295px);
+  }
 `;
 
 const MovieFilters = styled.div`
@@ -84,7 +104,11 @@ const MovieFilters = styled.div`
 `;
 
 const MobilePageTitle = styled.h1`
-  display: none;
+  margin: 3px 0 15px 60px;
+
+  @media ${device.laptop} {
+    display: none;
+  }
 `;
 
 const TotalCount = styled.strong`
