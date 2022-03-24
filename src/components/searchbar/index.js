@@ -1,13 +1,18 @@
-import React from "react";
+import React from 'react';
 import styled from 'styled-components';
 
-import * as colors from "../../colors";
+import * as colors from '../../css/constants/colors';
 
-export default function SearchBar ({ icon, id, type, placeholder, onChange }) {
+export default function SearchBar({ icon, id, type, placeholder, onChange }) {
   return (
     <InputWrapper className="search_bar_wrapper">
       <img src={icon.src} alt={icon.alt} htmlFor={id} width="25" />
-      <input type={type} id={id} onChange={e => onChange(e.target.value)} placeholder={placeholder} />
+      <input
+        type={type}
+        id={id}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+      />
     </InputWrapper>
   );
 }
@@ -29,9 +34,9 @@ const InputWrapper = styled.div`
     font-weight: 900;
 
     &::placeholder {
-      opacity: .8;
+      opacity: 0.8;
       color: ${colors.primaryColor};
       font-weight: 300;
     }
   }
-`
+`;

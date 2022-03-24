@@ -2,7 +2,8 @@ import React, { useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink as Link } from 'react-router-dom';
 
-import * as colors from '../../colors';
+import * as colors from '../../css/constants/colors';
+import { device } from '../../css/constants/sizes';
 import Arrow from '../../images/arrow-icon.png';
 import SearchWhite from '../../images/search-icon-white.png';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
@@ -57,6 +58,11 @@ const SideNavBarCont = styled.div`
   transform: ${({ isOpen }) =>
     isOpen ? 'translateX(0)' : 'translateX(-100%)'};
   transition: transform 0.5s ease-in-out;
+
+  @media ${device.laptop} {
+    visibility: visible;
+    transform: none;
+  }
 `;
 
 const SectionsStyles = css`
@@ -131,6 +137,10 @@ const Hamburger = styled.button`
   padding: 0;
   z-index: 90;
 
+  @media ${device.laptop} {
+    display: none;
+  }
+
   &:focus {
     outline: none;
   }
@@ -144,6 +154,7 @@ const Hamburger = styled.button`
     transition: all 0.3s linear;
     position: relative;
     transform-origin: 1px;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -165,5 +176,8 @@ const CloseButton = styled.button`
       ),
       -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white
             56%, transparent 56%, transparent 100%);
+  }
+  @media ${device.laptop} {
+    display: none;
   }
 `;
