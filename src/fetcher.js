@@ -13,4 +13,10 @@ export class Fetcher {
       `${Fetcher.URL}/movie/popular?api_key=${API_KEY}&language=en-US`
     );
   }
+
+  static getAllGenres() {
+    return axios.get(
+      `${Fetcher.URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`
+    );
+  }
 }

@@ -40,13 +40,24 @@ export default class Discover extends React.Component {
   // TODO: Update search results based on the keyword and year inputs
 
   componentDidMount() {
-    Fetcher.getAllMovies().then((res) => {
-      console.log(res);
-      this.setState({
-        results: res.data.results,
-        totalCount: res.data.total_results,
-      });
-    });
+    Promise.all([Fetcher.getAllMovies(), Fetcher.getAllGenres()]).then(
+      (results) => {
+        const movies = results[0].data;
+        const genres = results[1].data.genres;
+        movies.results.map((movie) => {
+          movie.imageUrl = `https://image.tmdb.org/t/p/w154${movie.poster_path}`;
+          movie.genre_names = [];
+          for (const genreId of movie.genre_ids) {
+            const genre = genres.find((genre) => genre.id === genreId)?.name;
+            if (genre) movie.genre_names.push(genre);
+          }
+        });
+        this.setState({
+          results: movies.results,
+          totalCount: movies.total_results,
+        });
+      }
+    );
   }
 
   render() {
