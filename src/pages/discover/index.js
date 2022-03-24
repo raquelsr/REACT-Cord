@@ -9,6 +9,8 @@ import SearchFilters from '../../components/searchfilter';
 import MovieList from '../../components/movielist';
 
 export default class Discover extends React.Component {
+  genres = [];
+
   constructor(props) {
     super(props);
 
@@ -43,21 +45,35 @@ export default class Discover extends React.Component {
     Promise.all([Fetcher.getAllMovies(), Fetcher.getAllGenres()]).then(
       (results) => {
         const movies = results[0].data;
-        const genres = results[1].data.genres;
-        movies.results.map((movie) => {
-          movie.imageUrl = `https://image.tmdb.org/t/p/w154${movie.poster_path}`;
-          movie.genre_names = [];
-          for (const genreId of movie.genre_ids) {
-            const genre = genres.find((genre) => genre.id === genreId)?.name;
-            if (genre) movie.genre_names.push(genre);
-          }
-        });
+        this.genres = results[1].data.genres;
+        movies.results.map((movie) => this._handleMovieData(movie));
         this.setState({
           results: movies.results,
           totalCount: movies.total_results,
         });
       }
     );
+  }
+
+  _handleMovieData(movie) {
+    movie.imageUrl = `${Fetcher.IMAGE_URL}${movie.poster_path}`;
+    movie.genre_names = [];
+    for (const genreId of movie.genre_ids) {
+      const genre = this.genres.find((genre) => genre.id === genreId)?.name;
+      if (genre) movie.genre_names.push(genre);
+    }
+  }
+
+  searchMovies(keyword, year) {
+    if (keyword !== '' || year > 0) {
+      Fetcher.searchMovies(keyword, year).then((res) => {
+        res.data.results.map((movie) => this._handleMovieData(movie));
+        this.setState({
+          results: res.data.results,
+          totalCount: res.data.total_results,
+        });
+      });
+    }
   }
 
   render() {
@@ -78,7 +94,7 @@ export default class Discover extends React.Component {
             genres={genreOptions}
             ratings={ratingOptions}
             languages={languageOptions}
-            searchMovies={(keyword, year) => this.searchMovies(keyword, year)}
+            onSearch={(keyword, year) => this.searchMovies(keyword, year)}
           />
         </MovieFilters>
         <TotalCount>{Number(totalCount).toLocaleString()} results</TotalCount>

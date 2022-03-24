@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 
 import * as colors from '../../css/constants/colors';
@@ -14,6 +14,30 @@ export default function SearchFilters({
   languages,
   onSearch,
 }) {
+  const [keyword, setKeyword] = useState('');
+  const [year, setYear] = useState(0);
+
+  const debounce = (callback, wait = 1500) => {
+    let timerId;
+    return (...args) => {
+      clearTimeout(timerId);
+      timerId = setTimeout(() => {
+        callback(...args);
+      }, wait);
+    };
+  };
+
+  const searchMovies = useCallback(
+    debounce((keyword, year) => {
+      onSearch(keyword, year);
+    }),
+    []
+  );
+
+  useEffect(() => {
+    searchMovies(keyword, year);
+  }, [keyword, year]);
+
   return (
     <FiltersWrapper>
       <SearchFiltersCont className="search_inputs_cont" marginBottom>
@@ -22,12 +46,14 @@ export default function SearchFilters({
           type="text"
           icon={{ src: SearchIcon, alt: 'Magnifying glass' }}
           placeholder="Search for movies"
+          onChange={(e) => setKeyword(e)}
         />
         <SearchBar
           id="year_search_input"
           type="number"
           icon={{ src: YearIcon, alt: 'Calendar icon' }}
           placeholder="Year of release"
+          onChange={(e) => setYear(e)}
         />
       </SearchFiltersCont>
       <SearchFiltersCont>
