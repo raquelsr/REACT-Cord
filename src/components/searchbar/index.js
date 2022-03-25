@@ -3,9 +3,25 @@ import styled from 'styled-components';
 
 import * as colors from '../../css/constants/colors';
 
-export default function SearchBar({ icon, id, type, placeholder, onChange }) {
+export default function SearchBar({
+  icon,
+  id,
+  type,
+  placeholder,
+  onChange,
+  onClick,
+}) {
+  const executeOnClick = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
+
   return (
-    <InputWrapper className="search_bar_wrapper">
+    <InputWrapper
+      className="search_bar_wrapper"
+      onClick={() => executeOnClick()}
+    >
       <img src={icon.src} alt={icon.alt} htmlFor={id} width="25" />
       <input
         type={type}

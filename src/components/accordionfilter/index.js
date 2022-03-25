@@ -42,7 +42,7 @@ const CollapsibleButton = styled.button`
   position: relative;
   width: 18px;
   height: 18px;
-  background #FFF;
+  background unset;
   border: none; 
   margin-top: 2px;
 

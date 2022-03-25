@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 
-import * as colors from '../../css/constants/colors';
-import ExpandableFilter from '../accordionfilter';
 import SearchBar from '../../components/searchbar';
 
 import SearchIcon from '../../images/search-icon-yellow.png';
 import YearIcon from '../../images/year-icon.png';
+import FilterIcon from '../../images/filter-icon.png';
 import AccordionFilter from '../accordionfilter';
+import { device } from '../../css/constants/sizes';
 
 export default function SearchFilters({
   genres,
@@ -17,6 +17,7 @@ export default function SearchFilters({
 }) {
   const [keyword, setKeyword] = useState('');
   const [year, setYear] = useState(0);
+  const [isOpenFilters, setIsOpenFilters] = useState(false);
 
   const debounce = (callback, wait = 1500) => {
     let timerId;
@@ -41,14 +42,26 @@ export default function SearchFilters({
 
   return (
     <FiltersWrapper>
-      <SearchFiltersCont className="search_inputs_cont" marginBottom>
-        <SearchBar
-          id="keyword_search_input"
-          type="text"
-          icon={{ src: SearchIcon, alt: 'Magnifying glass' }}
-          placeholder="Search for movies"
-          onChange={(e) => setKeyword(e)}
-        />
+      <SearchFiltersCont
+        className="search_inputs_cont"
+        marginBottom
+        isOpen={isOpenFilters}
+      >
+        <SearchFiltersInline>
+          <SearchBar
+            id="keyword_search_input"
+            type="text"
+            icon={{ src: SearchIcon, alt: 'Magnifying glass' }}
+            placeholder="Search for movies"
+            onChange={(e) => setKeyword(e)}
+          />
+          <SearchBar
+            id="filters_input"
+            type="button"
+            icon={{ src: FilterIcon, alt: 'Filter icon' }}
+            onClick={(e) => setIsOpenFilters(!isOpenFilters)}
+          />
+        </SearchFiltersInline>
         <SearchBar
           id="year_search_input"
           type="number"
@@ -57,7 +70,10 @@ export default function SearchFilters({
           onChange={(e) => setYear(e)}
         />
       </SearchFiltersCont>
-      <SearchFiltersCont>
+      <SearchFiltersCont
+        className="search_categories_cont"
+        isOpen={isOpenFilters}
+      >
         <CategoryTitle>Movies</CategoryTitle>
         {/* TODO: Complete the "AccordionFilter" component and re-use it for all filter categories */}
         <AccordionFilter
@@ -77,8 +93,6 @@ const FiltersWrapper = styled.div`
 `;
 
 const SearchFiltersCont = styled.div`
-  background-color: white;
-  padding: 20px;
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
 
@@ -86,11 +100,56 @@ const SearchFiltersCont = styled.div`
     margin-bottom: 15px;
   }
 
+  &.search_categories_cont {
+    display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+    margin: 30px 0;
+  }
+
+  .search_bar_wrapper:last-child {
+    display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  }
+
   ${(props) =>
     props.marginBottom &&
     css`
       margin-bottom: 15px;
     `}
+
+  @media ${device.laptop} {
+    background-color: white;
+    padding: 20px;
+
+    &.search_categories_cont {
+      display: block;
+    }
+
+    & .search_bar_wrapper:last-child {
+      display: flex;
+    }
+  }
+`;
+
+const SearchFiltersInline = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 10px;
+
+  .search_bar_wrapper:first-child {
+    width: 100%;
+  }
+
+  .search_bar_wrapper:last-child {
+    display: block;
+    width: 26px;
+    height: 26px;
+  }
+
+  @media ${device.laptop} {
+    .search_bar_wrapper:last-child {
+      display: none;
+    }
+  }
 `;
 
 const CategoryTitle = styled.h3`

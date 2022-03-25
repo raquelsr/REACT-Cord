@@ -126,19 +126,24 @@ const MovieResults = styled.div`
 `;
 
 const MovieFilters = styled.div`
-  width: 280px;
   float: right;
-  margin-top: 15px;
+
+  @media ${device.laptop} {
+    width: 280px;
+    margin-top: 36px;
+  }
 `;
 
 const MobilePageTitle = styled.h1`
-  margin: 3px 0 15px 60px;
+  margin: 0 0 24px 60px;
+  font-weight: 500;
 
   @media ${device.laptop} {
     display: none;
   }
 `;
 
-const TotalCount = styled.strong`
+const TotalCount = styled.span`
   display: block;
+  font-weight: lighter;
 `;
