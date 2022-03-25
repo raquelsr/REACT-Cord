@@ -7,6 +7,7 @@ import SearchBar from '../../components/searchbar';
 
 import SearchIcon from '../../images/search-icon-yellow.png';
 import YearIcon from '../../images/year-icon.png';
+import AccordionFilter from '../accordionfilter';
 
 export default function SearchFilters({
   genres,
@@ -59,6 +60,13 @@ export default function SearchFilters({
       <SearchFiltersCont>
         <CategoryTitle>Movies</CategoryTitle>
         {/* TODO: Complete the "AccordionFilter" component and re-use it for all filter categories */}
+        <AccordionFilter
+          title="Select genre(s) "
+          values={genres}
+          onChange={(e) => searchMovies(e)}
+        />
+        <AccordionFilter title="Select min. vote " values={ratings} />
+        <AccordionFilter title="Select language " values={languages} />
       </SearchFiltersCont>
     </FiltersWrapper>
   );
