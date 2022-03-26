@@ -79,10 +79,18 @@ export default function SearchFilters({
         <AccordionFilter
           title="Select genre(s) "
           values={genres}
-          onChange={(e) => searchMovies(e)}
+          onChange={() => console.log('Functionality not implemented.')}
         />
-        <AccordionFilter title="Select min. vote " values={ratings} />
-        <AccordionFilter title="Select language " values={languages} />
+        <AccordionFilter
+          title="Select min. vote "
+          values={ratings}
+          onChange={() => console.log('Functionality not implemented.')}
+        />
+        <AccordionFilter
+          title="Select language "
+          values={languages}
+          onChange={() => console.log('Functionality not implemented.')}
+        />
       </SearchFiltersCont>
     </FiltersWrapper>
   );

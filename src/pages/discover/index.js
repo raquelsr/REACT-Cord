@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import * as colors from '../../css/constants/colors';
 import { device } from '../../css/constants/sizes';
 import { Fetcher } from '../../fetcher';
 
@@ -44,7 +43,6 @@ export default class Discover extends React.Component {
       (results) => {
         const movies = results[0].data;
         const genreOptions = results[1].data.genres;
-        movies.results.map((movie) => this._handleMovieData(movie));
         this.setState({
           results: movies.results,
           totalCount: movies.total_results,
@@ -54,21 +52,9 @@ export default class Discover extends React.Component {
     );
   }
 
-  _handleMovieData(movie) {
-    movie.imageUrl = `${Fetcher.IMAGE_URL}${movie.poster_path}`;
-    movie.genre_names = [];
-    for (const genreId of movie.genre_ids) {
-      const genre = this.state.genreOptions.find(
-        (genre) => genre.id === genreId
-      )?.name;
-      if (genre) movie.genre_names.push(genre);
-    }
-  }
-
   searchMovies(keyword, year) {
     if (keyword !== '' || year > 0) {
       Fetcher.searchMovies(keyword, year).then((res) => {
-        res.data.results.map((movie) => this._handleMovieData(movie));
         this.setState({
           results: res.data.results,
           totalCount: res.data.total_results,
