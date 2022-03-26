@@ -14,7 +14,7 @@ export class Fetcher {
   static API_KEY_PARAM = `api_key=${API_KEY}`;
   static LANGUAGE_PARAM = `&language=${LANGUAGE}`;
 
-  static getAllMovies() {
+  static getAllPopularMovies() {
     return axios.get(
       `${Fetcher.URL}/movie/popular?${Fetcher.API_KEY_PARAM}&${Fetcher.LANGUAGE_PARAM}`
     );

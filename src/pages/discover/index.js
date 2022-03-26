@@ -1,3 +1,4 @@
+import { Cache } from '../../cache';
 import { device } from '../../css/constants/sizes';
 import { Fetcher } from '../../fetcher';
 import MovieList from '../../components/movielist';
@@ -6,6 +7,8 @@ import SearchFilters from '../../components/searchfilter';
 import styled from 'styled-components';
 
 export default class Discover extends React.Component {
+  cache = Cache.getInstance();
+
   constructor(props) {
     super(props);
 
@@ -37,22 +40,30 @@ export default class Discover extends React.Component {
   // TODO: Update search results based on the keyword and year inputs
 
   searchPopularMovies() {
-    const requests = [Fetcher.getAllMovies()];
-    if (this.state.genreOptions.length === 0)
-      requests.push(Fetcher.getAllGenres());
-    Promise.all(requests)
-      .then((results) => {
-        const movies = results[0].data;
-        const genreOptions = results[1]?.data.genres || this.state.genreOptions;
-        this.setState({
-          results: movies.results,
-          totalCount: movies.total_results,
-          genreOptions,
+    if (this.cache.totalPopularMovies === 0) {
+      Promise.all([Fetcher.getAllPopularMovies(), Fetcher.getAllGenres()])
+        .then((results) => {
+          const movies = results[0].data;
+          const genreOptions = results[1]?.data.genres;
+          this.cache.popularMovies = movies.results;
+          this.cache.totalPopularMovies = movies.total_results;
+          this.cache.genreOptions = genreOptions;
+          this.updateStateWithCache();
+        })
+        .catch((e) => {
+          console.error(e);
         });
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    } else {
+      this.updateStateWithCache();
+    }
+  }
+
+  updateStateWithCache() {
+    this.setState({
+      results: this.cache.popularMovies,
+      totalCount: this.cache.totalPopularMovies,
+      genreOptions: this.cache.genreOptions,
+    });
   }
 
   searchMovies(keyword, year) {
