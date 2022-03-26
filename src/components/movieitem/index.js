@@ -17,7 +17,6 @@ export default function MovieItem({ movie, genres }) {
   };
 
   return (
-    // TODO: Complete the MovieItem component
     <MovieItemWrapper>
       <LeftCont>
         <img src={getImageUrl()} alt="Movie poster" />

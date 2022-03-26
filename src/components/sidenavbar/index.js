@@ -11,7 +11,6 @@ export default function SideNavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const elemRef = useRef();
   useOnClickOutside(elemRef, () => setIsOpen(false));
-  /* TODO: Write the necessary functions to open and close the sidebar */
 
   return (
     <div ref={elemRef}>
@@ -21,8 +20,6 @@ export default function SideNavBar() {
         <div />
       </Hamburger>
       <SideNavBarCont isOpen={isOpen} className={isOpen ? 'visible' : ''}>
-        {/* TODO: Implement a hamburger icon that controls the open state of the sidebar. This control should only be visible on mobile devices via CSS media queries */}
-        {/* The sidebar should slide in from left */}
         <SideNavHeader>
           Wesley
           <img src={Arrow} alt="Arrow pointing down" />

@@ -35,10 +35,6 @@ export default class Discover extends React.Component {
     };
   }
 
-  // TODO: Preload and set the popular movies and movie genres when page loads
-
-  // TODO: Update search results based on the keyword and year inputs
-
   searchPopularMovies() {
     if (this.cache.totalPopularMovies === 0) {
       Promise.all([Fetcher.getAllPopularMovies(), Fetcher.getAllGenres()])

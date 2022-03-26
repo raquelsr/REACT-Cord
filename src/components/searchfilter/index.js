@@ -75,7 +75,6 @@ export default function SearchFilters({
         isOpen={isOpenFilters}
       >
         <CategoryTitle>Movies</CategoryTitle>
-        {/* TODO: Complete the "AccordionFilter" component and re-use it for all filter categories */}
         <AccordionFilter
           title="Select genre(s) "
           values={genres}

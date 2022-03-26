@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-// TODO: All of your API requests should be in this file
-// See the README file for more information about the APIs you would need to use
-
 const API_KEY = process.env.REACT_APP_API_KEY_TMDB;
 const LANGUAGE = process.env.REACT_APP_LANGUAGE;
 
