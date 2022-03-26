@@ -66,10 +66,6 @@ export default class Discover extends React.Component {
     if (keyword === '' && (year === '' || year === 0)) {
       this.searchPopularMovies();
     } else if (keyword !== this.state.keyword || year !== this.state.year) {
-      this.setState({
-        keyword,
-        year,
-      });
       Fetcher.searchMovies(keyword, year)
         .then((res) => {
           this.setState({
@@ -79,6 +75,10 @@ export default class Discover extends React.Component {
         })
         .catch((e) => console.error(e));
     }
+    this.setState({
+      keyword,
+      year,
+    });
   }
 
   render() {
