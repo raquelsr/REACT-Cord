@@ -1,12 +1,11 @@
-import React, { useState, useRef } from 'react';
-import styled, { css } from 'styled-components';
-import { NavLink as Link } from 'react-router-dom';
-
-import * as colors from '../../css/constants/colors';
 import { device } from '../../css/constants/sizes';
-import Arrow from '../../images/arrow-icon.png';
-import SearchWhite from '../../images/search-icon-white.png';
+import { NavLink as Link } from 'react-router-dom';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+import * as colors from '../../css/constants/colors';
+import Arrow from '../../images/arrow-icon.png';
+import React, { useState, useRef } from 'react';
+import SearchWhite from '../../images/search-icon-white.png';
+import styled, { css } from 'styled-components';
 
 export default function SideNavBar() {
   const [isOpen, setIsOpen] = useState(false);

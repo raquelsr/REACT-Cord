@@ -1,7 +1,6 @@
+import * as colors from '../../css/constants/colors';
 import React from 'react';
 import styled from 'styled-components';
-
-import * as colors from '../../css/constants/colors';
 
 export default function SearchBar({
   icon,

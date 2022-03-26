@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import styled, { css } from 'styled-components';
-
-import SearchBar from '../../components/searchbar';
-
-import SearchIcon from '../../images/search-icon-yellow.png';
-import YearIcon from '../../images/year-icon.png';
-import FilterIcon from '../../images/filter-icon.png';
-import AccordionFilter from '../accordionfilter';
 import { device } from '../../css/constants/sizes';
+import AccordionFilter from '../accordionfilter';
+import FilterIcon from '../../images/filter-icon.png';
+import React, { useEffect, useState, useCallback } from 'react';
+import SearchBar from '../../components/searchbar';
+import SearchIcon from '../../images/search-icon-yellow.png';
+import styled, { css } from 'styled-components';
+import YearIcon from '../../images/year-icon.png';
 
 export default function SearchFilters({
   genres,
@@ -19,7 +17,7 @@ export default function SearchFilters({
   const [year, setYear] = useState(0);
   const [isOpenFilters, setIsOpenFilters] = useState(false);
 
-  const debounce = (callback, wait = 1500) => {
+  const debounce = (callback, wait = 1000) => {
     let timerId;
     return (...args) => {
       clearTimeout(timerId);
@@ -29,6 +27,8 @@ export default function SearchFilters({
     };
   };
 
+  // it is solved if we use useMemo but I prefer useCallback
+  // eslint-disable-next-line
   const searchMovies = useCallback(
     debounce((keyword, year) => {
       onSearch(keyword, year);
@@ -38,7 +38,7 @@ export default function SearchFilters({
 
   useEffect(() => {
     searchMovies(keyword, year);
-  }, [keyword, year]);
+  }, [searchMovies, keyword, year]);
 
   return (
     <FiltersWrapper>
@@ -79,17 +79,17 @@ export default function SearchFilters({
         <AccordionFilter
           title="Select genre(s) "
           values={genres}
-          onChange={() => console.log('Functionality not implemented.')}
+          onChange={() => console.warn('Functionality not implemented.')}
         />
         <AccordionFilter
           title="Select min. vote "
           values={ratings}
-          onChange={() => console.log('Functionality not implemented.')}
+          onChange={() => console.warn('Functionality not implemented.')}
         />
         <AccordionFilter
           title="Select language "
           values={languages}
-          onChange={() => console.log('Functionality not implemented.')}
+          onChange={() => console.warn('Functionality not implemented.')}
         />
       </SearchFiltersCont>
     </FiltersWrapper>

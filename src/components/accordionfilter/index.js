@@ -1,7 +1,7 @@
+import * as colors from '../../css/constants/colors';
+import Checkbox from '../checkbox';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Checkbox from '../checkbox';
-import * as colors from '../../css/constants/colors';
 
 export default function AccordionFilter({ title, values, onChange }) {
   const [isOpen, setIsOpen] = useState(false);

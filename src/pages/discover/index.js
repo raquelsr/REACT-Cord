@@ -1,11 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-
 import { device } from '../../css/constants/sizes';
 import { Fetcher } from '../../fetcher';
-
-import SearchFilters from '../../components/searchfilter';
 import MovieList from '../../components/movielist';
+import React from 'react';
+import SearchFilters from '../../components/searchfilter';
+import styled from 'styled-components';
 
 export default class Discover extends React.Component {
   constructor(props) {
@@ -38,28 +36,41 @@ export default class Discover extends React.Component {
 
   // TODO: Update search results based on the keyword and year inputs
 
-  componentDidMount() {
-    Promise.all([Fetcher.getAllMovies(), Fetcher.getAllGenres()]).then(
-      (results) => {
+  searchPopularMovies() {
+    const requests = [Fetcher.getAllMovies()];
+    if (this.state.genreOptions.length === 0)
+      requests.push(Fetcher.getAllGenres());
+    Promise.all(requests)
+      .then((results) => {
         const movies = results[0].data;
-        const genreOptions = results[1].data.genres;
+        const genreOptions = results[1]?.data.genres || this.state.genreOptions;
         this.setState({
           results: movies.results,
           totalCount: movies.total_results,
           genreOptions,
         });
-      }
-    );
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }
 
   searchMovies(keyword, year) {
-    if (keyword !== '' || year > 0) {
-      Fetcher.searchMovies(keyword, year).then((res) => {
-        this.setState({
-          results: res.data.results,
-          totalCount: res.data.total_results,
-        });
+    if (keyword === '' && (year === '' || year === 0)) {
+      this.searchPopularMovies();
+    } else if (keyword !== this.state.keyword || year !== this.state.year) {
+      this.setState({
+        keyword,
+        year,
       });
+      Fetcher.searchMovies(keyword, year)
+        .then((res) => {
+          this.setState({
+            results: res.data.results,
+            totalCount: res.data.total_results,
+          });
+        })
+        .catch((e) => console.error(e));
     }
   }
 

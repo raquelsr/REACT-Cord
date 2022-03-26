@@ -8,7 +8,7 @@ const LANGUAGE = process.env.REACT_APP_LANGUAGE;
 
 export class Fetcher {
   static URL = 'https://api.themoviedb.org/3';
-  static IMAGE_URL = `https://image.tmdb.org/t/p/w154`;
+  static IMAGE_URL = 'https://image.tmdb.org/t/p/w154';
 
   _language = 'en-US';
   static API_KEY_PARAM = `api_key=${API_KEY}`;

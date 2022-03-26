@@ -1,10 +1,8 @@
+import { device } from '../../css/constants/sizes';
+import { Fetcher } from '../../fetcher';
+import * as colors from '../../css/constants/colors';
 import React from 'react';
 import styled from 'styled-components';
-
-import * as colors from '../../css/constants/colors';
-import { device } from '../../css/constants/sizes';
-
-import { Fetcher } from '../../fetcher';
 
 export default function MovieItem({ movie, genres }) {
   const getImageUrl = () => `${Fetcher.IMAGE_URL}${movie.poster_path}`;
@@ -22,7 +20,7 @@ export default function MovieItem({ movie, genres }) {
     // TODO: Complete the MovieItem component
     <MovieItemWrapper>
       <LeftCont>
-        <img src={getImageUrl()} alt="Movie image" />
+        <img src={getImageUrl()} alt="Movie poster" />
       </LeftCont>
       <RightCont>
         <Title>{movie.title}</Title>
