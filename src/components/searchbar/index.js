@@ -1,13 +1,33 @@
-import React from "react";
+import * as colors from '../../css/constants/colors';
+import React from 'react';
 import styled from 'styled-components';
 
-import * as colors from "../../colors";
+export default function SearchBar({
+  icon,
+  id,
+  type,
+  placeholder,
+  onChange,
+  onClick,
+}) {
+  const executeOnClick = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
 
-export default function SearchBar ({ icon, id, type, placeholder, onChange }) {
   return (
-    <InputWrapper className="search_bar_wrapper">
+    <InputWrapper
+      className="search_bar_wrapper"
+      onClick={() => executeOnClick()}
+    >
       <img src={icon.src} alt={icon.alt} htmlFor={id} width="25" />
-      <input type={type} id={id} onChange={e => onChange(e.target.value)} placeholder={placeholder} />
+      <input
+        type={type}
+        id={id}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+      />
     </InputWrapper>
   );
 }
@@ -29,9 +49,9 @@ const InputWrapper = styled.div`
     font-weight: 900;
 
     &::placeholder {
-      opacity: .8;
+      opacity: 0.8;
       color: ${colors.primaryColor};
       font-weight: 300;
     }
   }
-`
+`;
